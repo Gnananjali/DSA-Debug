@@ -10,7 +10,13 @@ const PORT = process.env.PORT        || 4000;
 const OLLAMA_URL   = process.env.OLLAMA_URL   || "http://localhost:11434";
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "phi";
 
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:3000" }));
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://dsa-debug.vercel.app"
+  ],
+  credentials: true
+}));
 app.use(express.json({ limit: "512kb" }));
 
 const JUDGE0_LANG_IDS = {
