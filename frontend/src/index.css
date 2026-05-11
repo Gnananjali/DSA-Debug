@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  background: #020617;
+  color: white;
+  font-family: sans-serif;
+}
+
+.gutter {
+  background-color: #1e293b;
+  border-radius: 999px;
+}
+
+.gutter:hover {
+  background-color: #3b82f6;
+}
+
+.gutter.gutter-horizontal {
+  cursor: col-resize;
+  width: 8px;
+}
+
+.gutter.gutter-vertical {
+  cursor: row-resize;
+  height: 8px;
+}

@@ -9,9 +9,21 @@
     "dev": "node --watch server.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
+    "bcryptjs": "^3.0.3",
+    "bullmq": "^5.76.6",
+    "cors": "^2.8.6",
     "dotenv": "^16.4.5",
+    "esprima": "^4.0.1",
     "express": "^4.19.2",
-    "node-fetch": "^3.3.2"
+    "ioredis": "^5.10.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.6.2",
+    "node-fetch": "^3.3.2",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
+    "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3"
   }
 }
