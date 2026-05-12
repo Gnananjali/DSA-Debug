@@ -3,44 +3,32 @@ import path from "path";
 import { exec } from "child_process";
 import { v4 as uuid } from "uuid";
 
-export async function runCodeInDocker(code, language = "javascript") {
+export async function runCodeInDocker(
+  code,
+  language = "python"
+) {
   return new Promise((resolve) => {
+
     const jobId = uuid();
 
-    let extension = "js";
+    let extension = "py";
 
-    let image = "node:18";
-
-    let runCommand = "node /app/submission.js";
+    let command = "";
 
     if (language === "python") {
       extension = "py";
-
-      image = "python:3.11";
-
-      runCommand = "python /app/submission.py";
+      command = "python";
     }
 
-    if (language === "cpp") {
-      extension = "cpp";
-
-      image = "gcc:latest";
-
-      runCommand =
-        'sh -c "g++ /app/submission.cpp -o /app/a.out && /app/a.out"';
+    if (language === "javascript") {
+      extension = "js";
+      command = "node";
     }
 
-    if (language === "java") {
-      extension = "java";
-
-      image = "openjdk:17";
-
-      runCommand = 'sh -c "javac /app/Main.java && java -cp /app Main"';
-    }
-
-    const fileName = `submission.${extension}`;
-
-    const tempDir = path.join(process.cwd(), "temp");
+    const tempDir = path.join(
+      process.cwd(),
+      "temp"
+    );
 
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, {
@@ -48,50 +36,44 @@ export async function runCodeInDocker(code, language = "javascript") {
       });
     }
 
-    const tempPath = path.join(tempDir, `${jobId}.${extension}`);
+    const tempPath = path.join(
+      tempDir,
+      `${jobId}.${extension}`
+    );
 
     fs.writeFileSync(tempPath, code);
 
-    const dockerCommand = `docker run --rm -v "${tempPath}:/app/${fileName}" ${image} ${runCommand}`;
-
     const startTime = Date.now();
+
     exec(
-      dockerCommand,
+      `${command} ${tempPath}`,
 
       {
-        timeout: 120000,
+        timeout: 10000,
       },
 
       (error, stdout, stderr) => {
-        console.log("STDOUT:", stdout);
-        console.log("STDERR:", stderr);
-        console.log("ERROR:", error);
-        const endTime = Date.now();
 
-        const runtime = endTime - startTime;
+        const runtime =
+          Date.now() - startTime;
 
         fs.unlinkSync(tempPath);
 
         if (error) {
           return resolve({
             success: false,
-
-            output: stderr || error.message,
-
+            output:
+              stderr || error.message,
             runtime,
-
-            memory: (Math.random() * 20 + 5).toFixed(2),
+            memory: "N/A",
           });
         }
 
         resolve({
           success: true,
-
           output: stdout.trim(),
-
           runtime,
-
-          memory: (Math.random() * 20 + 5).toFixed(2),
+          memory: "N/A",
         });
       }
     );
