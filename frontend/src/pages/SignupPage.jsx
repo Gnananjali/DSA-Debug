@@ -20,7 +20,7 @@ export default function SignupPage() {
 
     try {
       const res = await axios.post(
-        "http://localhost:4000/api/signup",
+        "https://dsa-debug.onrender.com/api/signup",
 
         {
           username,

@@ -4,7 +4,7 @@ export default function ProblemList({ onSelect }) {
   const [problems, setProblems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/problems")
+    fetch("https://dsa-debug.onrender.com/api/problems")
       .then((res) => res.json())
       .then(setProblems);
   }, []);

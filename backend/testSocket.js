@@ -2,7 +2,7 @@ import { io } from "socket.io-client";
 
 console.log("Starting socket client...");
 
-const socket = io("http://localhost:4000", {
+const socket = io("https://dsa-debug.onrender.com", {
   transports: ["websocket"],
 });
 

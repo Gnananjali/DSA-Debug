@@ -1,5 +1,5 @@
 import axios from "axios";
-const API = "http://localhost:4000";
+const API = "https://dsa-debug.onrender.com";
 
 export async function fetchProblems() {
   const response = await fetch(`${API}/api/problems`);
@@ -29,7 +29,7 @@ export async function runCodeAPI(body) {
 
 export async function submitCode(data) {
   const response = await axios.post(
-    "http://localhost:4000/api/submit",
+    "https://dsa-debug.onrender.com/api/submit",
 
     data,
 
@@ -45,7 +45,7 @@ export async function submitCode(data) {
 
 export async function submitCodeAPI(payload) {
   const res = await axios.post(
-    "http://localhost:4000/api/submit",
+    "https://dsa-debug.onrender.com/api/submit",
 
     payload,
 
@@ -60,7 +60,7 @@ export async function submitCodeAPI(payload) {
 }
 export async function fetchProfile() {
   const res = await axios.get(
-    "http://localhost:4000/api/profile",
+    "https://dsa-debug.onrender.com/api/profile",
 
     {
       headers: {
