@@ -1,4 +1,8 @@
+import dotenv from "dotenv";
+
 import { getIO } from "../socket.js";
+
+dotenv.config();
 import { generateExplanation } from "../explanationEngine.js";
 import { generateSuggestions } from "../suggestionEngine.js";
 import { analyzeComplexity } from "../analyzer.js";
@@ -66,11 +70,10 @@ const worker = new Worker(
   },
 
   {
-    connection: {
-      host: "127.0.0.1",
-      port: 6379,
-    },
-  }
+  connection: {
+    url: process.env.REDIS_URL,
+  },
+}
 );
 
 console.log("🚀 Worker started...");

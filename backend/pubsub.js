@@ -1,11 +1,18 @@
+import dotenv from "dotenv";
+
+dotenv.config();
 import Redis from "ioredis";
 
-export const publisher = new Redis({
-  host: "127.0.0.1",
-  port: 6379,
+export const publisher =
+  new Redis(process.env.REDIS_URL);
+
+export const subscriber =
+  new Redis(process.env.REDIS_URL);
+
+publisher.on("connect", () => {
+  console.log("✅ Publisher Connected");
 });
 
-export const subscriber = new Redis({
-  host: "127.0.0.1",
-  port: 6379,
+subscriber.on("connect", () => {
+  console.log("✅ Subscriber Connected");
 });

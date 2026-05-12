@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 
 dotenv.config();
+console.log(process.env.REDIS_URL);
 import bcrypt from "bcryptjs";
 
 import jwt from "jsonwebtoken";
@@ -8,12 +9,12 @@ import jwt from "jsonwebtoken";
 import User from "./models/User.js";
 import { setIO } from "./socket.js";
 import mongoose from "mongoose";
-import { subscriber } from "./pubsub.js";
 import http from "http";
 import { Server } from "socket.io";
 import { runCodeInDocker } from "./dockerExecutor.js";
 import { submissionQueue } from "./queue.js";
 import express from "express";
+import "./config/redis.js";
 import cors from "cors";
 
 import Submission from "./models/Submission.js";
@@ -29,7 +30,8 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/dsadebug")
+  .connect(process.env.MONGO_URI)
+
   .then(() => {
     console.log("✅ MongoDB Connected");
   })
@@ -170,17 +172,9 @@ const io = new Server(server, {
 });
 setIO(io);
 
-subscriber.subscribe("job-events");
 
-subscriber.on("message", (channel, message) => {
-  if (channel === "job-events") {
-    const data = JSON.parse(message);
 
-    console.log("📡 Redis Event:", data);
 
-    io.emit("job-update", data);
-  }
-});
 const PORT = process.env.PORT || 4000;
 const OLLAMA_URL = process.env.OLLAMA_URL || "http://localhost:11434";
 const OLLAMA_MODEL = process.env.OLLAMA_MODEL || "phi";
