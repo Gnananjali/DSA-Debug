@@ -40,7 +40,15 @@ export async function runCodeInDocker(code, language = "javascript") {
 
     const fileName = `submission.${extension}`;
 
-    const tempPath = path.join(process.cwd(), "temp", `${jobId}.${extension}`);
+    const tempDir = path.join(process.cwd(), "temp");
+
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, {
+        recursive: true,
+      });
+    }
+
+    const tempPath = path.join(tempDir, `${jobId}.${extension}`);
 
     fs.writeFileSync(tempPath, code);
 

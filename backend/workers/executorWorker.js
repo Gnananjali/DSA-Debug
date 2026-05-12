@@ -70,10 +70,10 @@ const worker = new Worker(
   },
 
   {
-  connection: {
-    url: process.env.REDIS_URL,
-  },
-}
+    connection: {
+      url: process.env.REDIS_URL,
+    },
+  }
 );
 
 console.log("🚀 Worker started...");
