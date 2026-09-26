@@ -15,6 +15,7 @@ const problemRoutes = require("./routes/problemRoutes");
 const submissionRoutes = require("./routes/submissionRoutes");
 
 const app = express();
+app.set("trust proxy", 1);
 const clientOrigins = (process.env.CLIENT_ORIGINS || "").split(",").map((s) => s.trim());
 
 app.use(helmet());
@@ -23,7 +24,7 @@ app.use(express.json({ limit: "200kb" }));
 app.use(morgan("tiny"));
 
 // Submitting code is the expensive path — rate-limit it specifically.
-const submissionLimiter = rateLimit({ windowMs: 60 * 1000, max: 10 });
+const submissionLimiter = rateLimit({ windowMs: 60 * 1000, max: 60 });
 app.use("/api/submissions", submissionLimiter);
 
 app.get("/api/health", (req, res) => res.json({ ok: true }));
