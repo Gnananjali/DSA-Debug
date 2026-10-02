@@ -153,7 +153,11 @@ export default function ProblemWorkspace() {
         <div className="flex items-center justify-between border-b border-border bg-surface px-4 py-2">
           <select
   value={language}
-  onChange={(e) => setLanguage(e.target.value)}
+  onChange={(e) => {
+  const newLanguage = e.target.value;
+  setLanguage(newLanguage);
+  setCode(problem.starterCode[newLanguage] || "");
+}}
   className="rounded border border-border bg-surface2 px-2 py-1 text-sm text-ink"
 >
   <option value="javascript">JavaScript</option>
